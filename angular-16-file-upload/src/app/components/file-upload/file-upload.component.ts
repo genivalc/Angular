@@ -6,10 +6,9 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.css']
+  styleUrls: ['./file-upload.component.css'],
 })
 export class FileUploadComponent implements OnInit {
-
   selectedFiles?: FileList;
   currentFile?: File;
   progress = 0;
@@ -17,7 +16,7 @@ export class FileUploadComponent implements OnInit {
 
   fileInfos?: Observable<any>;
 
-  constructor(private uploadService: FileUploadService) { }
+  constructor(private uploadService: FileUploadService) {}
   ngOnInit(): void {
     this.fileInfos = this.uploadService.getFiles();
   }
@@ -34,11 +33,10 @@ export class FileUploadComponent implements OnInit {
 
       if (file) {
         this.currentFile = file;
-
         this.uploadService.upload(this.currentFile).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
+              this.progress = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
               this.message = event.body.message;
               this.fileInfos = this.uploadService.getFiles();
@@ -55,12 +53,11 @@ export class FileUploadComponent implements OnInit {
             }
 
             this.currentFile = undefined;
-          }
+          },
         });
       }
 
       this.selectedFiles = undefined;
     }
   }
-
 }
